@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iOS Apps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07070a;
+    --ink: #f2efe9;
+    --ink-soft: #9b968d;
+    --line: rgba(255,255,255,0.10);
+    --accent: #e2762f;
+    --glass: rgba(255,255,255,0.045);
+    --glass-hi: rgba(255,255,255,0.09);
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Zen Kaku Gothic New', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink); font-family: var(--body);
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+    min-height: 100vh; position: relative; overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(40vw 40vw at 18% 8%, rgba(91,63,163,0.22), transparent 60%),
+      radial-gradient(38vw 38vw at 88% 22%, rgba(184,134,11,0.16), transparent 60%),
+      radial-gradient(42vw 42vw at 75% 88%, rgba(21,128,61,0.18), transparent 60%),
+      radial-gradient(40vw 40vw at 12% 92%, rgba(30,80,120,0.20), transparent 60%);
+    filter: saturate(1.1);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+  section.apps { padding: 72px 0 40px; }
+  .section-label { font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+  .card {
+    position: relative; border-radius: 20px; padding: 30px 28px 26px; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; overflow: hidden;
+    background: var(--glass); border: 1px solid var(--line);
+    backdrop-filter: blur(22px) saturate(1.5); -webkit-backdrop-filter: blur(22px) saturate(1.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 36px -20px rgba(0,0,0,0.8);
+    transition: transform 0.4s cubic-bezier(.2,.7,.3,1), box-shadow 0.4s, background 0.4s, border-color 0.4s;
+  }
+  .card::before { content: ""; position: absolute; width: 160px; height: 160px; right: -50px; top: -50px; border-radius: 50%; background: var(--c, var(--accent)); opacity: 0.22; filter: blur(40px); transition: opacity 0.4s, transform 0.4s; }
+  .card::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, transparent, var(--c, var(--accent)), transparent); opacity: 0; transition: opacity 0.4s; }
+  .card > * { position: relative; z-index: 1; }
+  .card:hover { transform: translateY(-6px); background: var(--glass-hi); border-color: color-mix(in srgb, var(--c, var(--accent)) 55%, transparent); box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 24px 50px -22px rgba(0,0,0,0.9); }
+  .card:hover::before { opacity: 0.38; transform: scale(1.15); }
+  .card:hover::after { opacity: 0.7; }
+  .card .badge { width: 60px; height: 60px; border-radius: 15px; margin-bottom: 22px; flex-shrink: 0; object-fit: cover; border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 4px 16px -4px rgba(0,0,0,0.6); display: block; }
+  .card h3 { font-family: var(--display); font-weight: 500; font-size: 1.4rem; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .card .cat { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--c) 60%, var(--ink)); font-weight: 700; margin-bottom: 14px; }
+  .card p { font-size: 0.9rem; color: var(--ink-soft); flex: 1; margin-bottom: 22px; }
+  .card .go { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 7px; color: var(--ink); }
+  .card .go .arrow { transition: transform 0.3s; }
+  .card:hover .go .arrow { transform: translateX(5px); }
+  .card { opacity: 0; animation: rise 0.7s cubic-bezier(.2,.7,.3,1) forwards; }
+  @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+  footer { border-top: 1px solid var(--line); padding: 44px 0 64px; margin-top: 44px; }
+  footer .frow { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 12px; }
+  footer .links { display: flex; gap: 12px; }
+  footer a.pill { color: var(--ink-soft); text-decoration: none; font-size: 0.84rem; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: color 0.25s, border-color 0.25s, background 0.25s; }
+  footer a.pill:hover { color: var(--ink); border-color: var(--accent); background: var(--glass-hi); }
+  @media (max-width: 560px) {
+    section.apps { padding: 48px 0 32px; }
+    .grid { grid-template-columns: 1fr; }
+    footer .frow { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+<section class="apps">
+  <div class="wrap">
+    <div class="section-label">All Apps</div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <div class="frow">
+      <div class="links">
+        <a class="pill" href="mailto:sentianzhen87@gmail.com">Contact</a>
+        <a class="pill" href="https://github.com/hikakinhouse3" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+  const apps = [
+    { n:"board and cut house", cat:"Physics Sim", c:"#e2762f", icon:"icons/board-and-cut-house.png", d:"瓶・皿・壺・写真・テキストを壁に向けて投げ、リアルな物理演算で砕け散る破壊シミュレーター。音と振動で味わう、ただ気持ちいい体験。", url:"https://apps.apple.com/app/board-and-cut-house/id6762118807" },
+    { n:"Growtip", cat:"AI Training", c:"#2f9e6e", icon:"icons/growtip.png", d:"10人のAI顧客を相手に営業ロープレを練習。15シナリオ、AIコーチのフィードバック付き。簡単には説得されないからこそ、練習になる。", url:"https://apps.apple.com/app/growtip/id6763971283" },
+    { n:"Cartwright App", cat:"Thinking Game", c:"#8b6fd6", icon:"icons/cartwright.png", d:"地球を知らないAIエイリアンに「赤」や「お金」をどう説明する? 27パターンのエイリアン×150問で、当たり前を言葉にする思考の訓練。", url:"https://apps.apple.com/app/cartwright-app/id6765990159" },
+    { n:"Type Goldbrain", cat:"AI Companion", c:"#d4a728", icon:"icons/type-goldbrain.png", d:"日本中を自由気ままに旅するAIキャラクターと暮らす。地図上を数時間ごとに移動し、観察するだけ。話しかければ、ちゃんと答えてくれる。", url:"https://apps.apple.com/app/type-goldbrain/id6767881818" },
+    { n:"Jaguar Text Banner House", cat:"Utility", c:"#2aa6c4", icon:"icons/jtbh.png", d:"要らない写真と書類を、シュレッダー演出と共に視覚的に破壊して完全削除。浮いた容量を「今日のスッキリ」として実感できる。", url:"https://apps.apple.com/app/jaguartextbannerhouse/id6769069552" },
+    { n:"Toughness Baldwin", cat:"Career", c:"#a8a29a", icon:"icons/toughness-baldwin.png", d:"就活生のための自己理解アプリ。面接の本物の質問に答えると、AIが思考のクセ・強み・適性業界を分析。学習コンテンツ95項目。", url:"https://apps.apple.com/app/toughness-baldwin/id6770331418" },
+    { n:"Brown Head Brown", cat:"Relax Toy", c:"#9a6b3c", icon:"icons/brown-head-brown.png", d:"宇宙に浮かぶ謎の住人たちと過ごす、目的のないリラックスアプリ。傾けて漂わせ、絵文字を投げ、独り言を聞く。レアな変身も。", url:"https://apps.apple.com/app/brown-head-brown/id6771306694" },
+    { n:"Traffic Jaguar", cat:"Walking RPG", c:"#2f9e6e", icon:"icons/traffic-jaguar.png", d:"移動すると卵が育つ、新感覚のお散歩RPG。歩いた距離が通貨になり、孵化させて牧場で育てる。5キャラ×5レア度、何が出るかは着くまで秘密。", url:"https://apps.apple.com/app/traffic-jaguar/id6773935760" },
+    { n:"Powership", cat:"Walking Sim", c:"#5b6fb0", icon:"icons/powership.png", d:"歩いて力士を育てる相撲放置ゲーム。あなたは親方。日々の歩数が稽古ポイントになり、序ノ口から横綱へ。放置でも本場所は進行する。", url:"https://apps.apple.com/app/powership/id6775038316" },
+  ];
+  const grid = document.getElementById('grid');
+  apps.forEach((a, i) => {
+    const el = document.createElement('a');
+    el.className = 'card'; el.href = a.url; el.target = '_blank'; el.rel = 'noopener';
+    el.style.setProperty('--c', a.c); el.style.animationDelay = (i * 0.06) + 's';
+    el.innerHTML = `<img class="badge" src="${a.icon}" alt="${a.n}" loading="lazy"><div class="cat">${a.cat}</div><h3>${a.n}</h3><p>${a.d}</p><span class="go">View on App Store <span class="arrow">→</span></span>`;
+    grid.appendChild(el);
+  });
+</script>
+</body>
+</html>
